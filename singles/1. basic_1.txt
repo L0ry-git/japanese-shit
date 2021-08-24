@@ -1,0 +1,8 @@
+K|日|hi|giorno
+O|本|hon|libro
+K|人|hito|persona
+K|大（きい）|oo-kii|grande
+K|先（に）|saki-ni|prima
+K|生（まれる）|u-mareru|nascere
+K|生（きる）|i-kiru|vivere
+K|中|naka|dentro

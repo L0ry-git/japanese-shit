@@ -1,0 +1,2 @@
+Caratteri basilari 1: sole, libro, uomo, grande, studio, prima, nascere, metà
+Orari prima e dopo mezzogiorno (AM/PM) con ore e minuti

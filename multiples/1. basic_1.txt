@@ -1,0 +1,5 @@
+O|日本|nihon/nippon|Giappone|sole + origine
+O|日本人|(nihon/nippon)-jin|giapponese|Giappone + uomo
+O|大学|dai-gaku|università|grande + scuola
+O|学生|gaku-sei|studente|studiare + vivere
+O|先生|sen-sei|insegnante|prima + nascere

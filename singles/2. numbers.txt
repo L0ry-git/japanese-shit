@@ -1,0 +1,22 @@
+O|一|ichi|uno
+K|一（つ）|hito-tsu|uno
+O|ニ|ni|due
+K|ニ（つ）|futa-tsu|due
+O|三|san|tre
+K|三（つ）|mi-ttsu|tre
+O|四 (on)|shi|quattro
+K|四 (kun)|yon|quattro
+K|四（つ）|yo-ttsu|quattro
+O|五|go|cinque
+K|五（つ）|i-ttsu|cinque
+O|六|roku|sei
+K|六（つ）|mu-ttsu|sei
+O|七 (on)|shichi|sette
+K|七 (kun)|nana|sette
+K|七（つ）|nana-tsu|sette
+O|八|hachi|otto
+K|八（つ）|ya-ttsu|otto
+O|九|kyuu|nove
+K|九（つ）|iino-tsu|nove
+O|十 (on)|juu|dieci
+K|十 (kun)|too|dieci
