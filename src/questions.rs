@@ -250,6 +250,11 @@ pub mod gen {
             Some(())
         }
 
+        //the bigger the more likely to be asked
+        fn weight(&self) -> usize {
+            self.shards.len() * 2
+        }
+
         fn ask(&self) {
             let mut full_sequence = vec![];
             let mut shards_iter = self.shards.iter().peekable();
@@ -284,7 +289,8 @@ pub mod gen {
             let (qst, ans): (Vec<_>, Vec<(_, _)>) = full_sequence.into_iter()
                 .map(|qst| (qst.expr, (qst.pron, qst.meaning)))
                 .unzip();
-            let (ans_pron, ans_meaning): (Vec<_>, Vec<_>) = ans.into_iter().unzip();
+            let (mut ans_pron, ans_meaning): (Vec<_>, Vec<_>) = ans.into_iter().unzip();
+            ans_pron.drain_filter(|part| part.is_empty());
 
             println!("Leggere i seguenti kanji: {}", qst.join(""));
             println!("Premere INVIO per mostrare la soluzione:");
@@ -295,11 +301,6 @@ pub mod gen {
                 ans_meaning.join("")
             );
             println!("-----------------------");
-        }
-
-        //the bigger the more likely to be asked
-        fn weight(&self) -> usize {
-            self.shards.len() * 2
         }
     }
 }

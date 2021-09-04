@@ -1,2 +1,3 @@
 Caratteri basilari 1: sole, libro, uomo, grande, studio, prima, nascere, metà
-Orari prima e dopo mezzogiorno (AM/PM) con ore e minuti
+Generatore di numeri fino a 9999
+Generatore di orari prima e dopo mezzogiorno (AM/PM) con ore e minuti

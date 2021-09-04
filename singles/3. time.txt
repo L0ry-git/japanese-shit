@@ -1,0 +1,6 @@
+K|今|ima|adesso
+K|時|toki|quando
+K|分（かる）|wa-karu|comprendere
+K|前|mae|di fronte
+K|後（ろ）|ushi-ro|dietro
+K|後|ato|dopo

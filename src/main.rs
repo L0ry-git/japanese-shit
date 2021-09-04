@@ -1,5 +1,6 @@
 #![feature(box_syntax)]
 #![feature(exclusive_range_pattern)]
+#![feature(drain_filter)]
 
 mod questions;
 mod files;
