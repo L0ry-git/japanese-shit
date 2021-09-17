@@ -13,7 +13,8 @@ use variant_count::VariantCount;
 pub enum QuestionType {
     SingleWord,
     Multi,
-    Both
+    Both,
+    Reverse
 }
 
 fn main() {
@@ -22,7 +23,7 @@ fn main() {
     println!("---------------------");
 
     print!("Che gruppo di vocaboli vuoi utilizzare? ");
-    println!("(1: solo vocaboli a un kanji, 2: solo espressioni con più di un kanji, 3: entrambi)");
+    println!("(1: solo vocaboli a un kanji, 2: solo espressioni con più di un kanji, 3: entrambi, 4: inverso)");
     let q_type = match get_line_enum!(QuestionType) {
         Some(qt) => qt,
         _ => {

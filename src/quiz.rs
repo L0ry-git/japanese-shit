@@ -12,25 +12,37 @@ pub fn do_quiz(
 
     let type_val = q_type as u8 + 1;
     let mut all_questions = Vec::new();
-        
-    //ask single
-    if type_val & 1 != 0 {
+
+    //ask reversed
+    if type_val == 4 {
         println!("-----------------");
-        select_classes::<questions::QuestionSingle>(
-            "Parole con un singolo kanji", 
-            Path::new("singles"), 
+        select_classes::<questions::QuestionReversed>(
+            "Inverso: da pronuncia a kanji", 
+            Path::new("reversed"), 
             &mut all_questions
         )?;
     }
-    
-    //ask multi
-    if type_val & 2 != 0 {
-        println!("-----------------");
-        select_classes::<questions::QuestionMultiple>(
-            "Parole con più kanji", 
-            Path::new("multiples"), 
-            &mut all_questions
-        )?;
+    //ask not reversed
+    else {
+        //ask single
+        if type_val & 1 != 0 {
+            println!("-----------------");
+            select_classes::<questions::QuestionSingle>(
+                "Parole con un singolo kanji", 
+                Path::new("singles"), 
+                &mut all_questions
+            )?;
+        }
+        
+        //ask multi
+        if type_val & 2 != 0 {
+            println!("-----------------");
+            select_classes::<questions::QuestionMultiple>(
+                "Parole con più kanji", 
+                Path::new("multiples"), 
+                &mut all_questions
+            )?;
+        }
     }
 
     //do the quiz
@@ -42,7 +54,6 @@ pub fn do_quiz(
         let mut rng = rand::thread_rng();
 
         let current_question = &all_questions[rng_dist.sample(&mut rng)];
-
         current_question.ask();
     }
 

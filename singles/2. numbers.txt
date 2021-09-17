@@ -20,3 +20,5 @@ O|九|kyuu|nove
 K|九（つ）|iino-tsu|nove
 O|十 (on)|juu|dieci
 K|十 (kun)|too|dieci
+O|百|hyaku|cento
+O|千|sen|mille

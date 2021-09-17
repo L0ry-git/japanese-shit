@@ -1,5 +1,5 @@
 use crate::utils;
-use std::mem;
+use std::{fmt::Display, mem};
 
 pub trait Question {
     unsafe fn parse(this_ptr: *mut Self, lines_iter: &mut dyn Iterator<Item = String>) -> Option<()>
@@ -27,6 +27,17 @@ where
 enum PronunciationKind {
     Kun,
     On,
+}
+
+impl Display for PronunciationKind {
+    
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", match self {
+            PronunciationKind::Kun => "kun'yomi",
+            PronunciationKind::On => "on'yomi",
+        })
+    }
+
 }
 
 #[derive(Debug, Clone)]
@@ -58,13 +69,6 @@ impl QuestionSingle {
 
         Some(ret)
     }
-
-    fn pron_kind(&self) -> String {
-        String::from(match self.pron_kind {
-            PronunciationKind::Kun => "kun'yomi",
-            PronunciationKind::On => "on'yomi",
-        })
-    }
 }
 
 impl Question for QuestionSingle {
@@ -86,7 +90,7 @@ impl Question for QuestionSingle {
         println!(
             "- Pronuncia: {}, tipo di pronuncia: {}, significato: {}",
             self.pron,
-            self.pron_kind(),
+            self.pron_kind,
             self.meaning
         );
         println!("-----------------------");
@@ -127,7 +131,7 @@ impl Question for QuestionMultiple {
         println!(
             "- Pronuncia: {}, tipo di pronuncia: {}, composizione: {}, significato: {}",
             inner.pron,
-            inner.pron_kind(),
+            inner.pron_kind,
             self.composition,
             inner.meaning
         );
@@ -302,5 +306,94 @@ pub mod gen {
             );
             println!("-----------------------");
         }
+    }
+}
+
+#[derive(Debug, Clone)]
+pub struct QuestionReversed {
+    reading: String,
+    possible_kanjis: Vec<(String, PronunciationKind)>,
+    possible_meanings: Vec<String>
+}
+
+impl QuestionReversed {
+
+    const HMP_FACTOR: usize = 3;
+
+    #[inline(always)]
+    fn single_from_iter<'s, I>(split_iter: &mut I) -> Option<QuestionReversed>
+    where
+        I: Iterator<Item = &'s str>,
+    {
+        let reading = String::from(split_iter.next()?);
+        let possible_kanjis = split_iter.next()?.split(",")
+            .filter_map(Self::parse_kanji).collect::<Vec<_>>();
+        if possible_kanjis.is_empty() {return None};
+        let possible_meanings = split_iter.next()?.split(",").map(String::from).collect();
+
+        Some(QuestionReversed {
+            reading,
+            possible_kanjis,
+            possible_meanings
+        })
+    }
+
+    fn parse_kanji(expr: &str) -> Option<(String, PronunciationKind)> {
+        let mut expr_iter = expr.chars();
+        let pron_kind = match expr_iter.next()? {
+            'K' => PronunciationKind::Kun,
+            'O' => PronunciationKind::On,
+            _ => return None,
+        };
+        
+        Some((
+            expr_iter.collect::<String>(),
+            pron_kind
+        ))
+    }
+
+    #[inline(always)]
+    fn how_many_possible(&self) -> usize {
+        self.possible_kanjis.len()
+    }
+
+}
+
+impl Question for QuestionReversed {
+
+    unsafe fn parse(this_ptr: *mut Self, lines_iter: &mut dyn Iterator<Item = String>) -> Option<()>
+        where Self: Sized {
+        
+        let line = lines_iter.next()?;
+        let mut split_iter = line.split('|');
+        this_ptr.write(Self::single_from_iter(&mut split_iter)?);
+
+        Some(())
+    }
+
+    fn weight(&self) -> usize {
+        let hmp = self.how_many_possible();
+        if hmp == 1 {hmp} else {hmp * Self::HMP_FACTOR}
+    }
+
+    fn ask(&self) {
+        println!("Quali kanji potrebbero essere letti \"{}\"?", self.reading);
+
+        println!("Premere INVIO per mostrare la soluzione:");
+        utils::get_line();
+        
+        println!("Possibili kanji:");
+        for ((kanji, p_kind), meaning) in self.possible_kanjis.iter()
+                .zip(self.possible_meanings.iter()) 
+        {
+            println!(
+                "- Carattere: {}, tipo di pronuncia: {}, significato: {}", 
+                kanji, 
+                p_kind, 
+                meaning
+            );
+        }
+
+        println!("-----------------------");
     }
 }
